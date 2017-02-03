@@ -41,8 +41,10 @@ class GeistPduDriver(ResourceDriverInterface, PowerResourceDriverInterface):
         return geist_autoload(context)
 
     def PowerCycle(self, context, ports, delay):
+        if not delay:
+            delay = 0
         for port in ports:
-            geist_power_cycle(context, port.split('/')[-1], delay)
+            geist_power_cycle(context, port.split('/')[-1], float(delay))
 
     def PowerOn(self, context, ports):
         for port in ports:
