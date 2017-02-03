@@ -4,7 +4,7 @@ from cloudshell.power.pdu.power_resource_driver_interface import PowerResourceDr
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 from cloudshell.shell.core.context import InitCommandContext, ResourceCommandContext
 
-from cloudshell.pdu.geist.logic.geist_handler import geist_autoload
+from cloudshell.pdu.geist.logic.geist_handler import geist_autoload, geist_power_cycle, geist_power_on, geist_power_off
 
 from cloudshell.shell.core.context import AutoLoadDetails
 
@@ -42,12 +42,12 @@ class GeistPduDriver(ResourceDriverInterface, PowerResourceDriverInterface):
 
     def PowerCycle(self, context, ports, delay):
         for port in ports:
-            geist_power_cycle(context, port.split('/')[-1], delay)
+            geist_power_cycle(context, int(port.split('/')[-1]), delay)
 
     def PowerOn(self, context, ports):
         for port in ports:
-            geist_power_on(context, port.split('/')[-1])
+            geist_power_on(context, int(port.split('/')[-1]))
 
     def PowerOff(self, context, ports):
         for port in ports:
-            geist_power_off(context, port.split('/')[-1])
+            geist_power_off(context, int(port.split('/')[-1]))

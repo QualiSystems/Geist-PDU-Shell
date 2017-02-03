@@ -63,7 +63,6 @@ def geist_power_on(context, portnum):
 
     do_geist_power(context, f)
 
-
 def geist_power_off(context, portnum):
     def f(snmp):
         snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(3))))
@@ -144,7 +143,7 @@ def geist_autoload(context):
     rv.attributes = []
 
     rv.attributes.append(makeattr('', 'Version', snmp.get_property('GEIST-MIB-V3', 'productVersion', 0)))
-    rv.attributes.append(makeattr('', 'Location', snmp.get_property('SNMPv2-MIB', 'sysLocation', 0)))
+    # rv.attributes.append(makeattr('', 'Location', snmp.get_property('SNMPv2-MIB', 'sysLocation', 0)))
     rv.attributes.append(makeattr('', 'Vendor', snmp.get_property('GEIST-MIB-V3', 'productHardware', 0)))
     rv.attributes.append(makeattr('', 'Model', snmp.get_property('GEIST-MIB-V3', 'productTitle', 0)))
 
