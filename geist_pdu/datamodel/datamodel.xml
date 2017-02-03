@@ -76,6 +76,12 @@
         <Rule Name="Setting" />
       </Rules>
     </AttributeInfo>
+    <AttributeInfo Name="Location" Type="String" DefaultValue="" IsReadOnly="true">
+      <Rules>
+        <Rule Name="Configuration" />
+        <Rule Name="Setting" />
+      </Rules>
+    </AttributeInfo>
     <AttributeInfo Name="Vendor" Type="String" DefaultValue="" IsReadOnly="true">
       <Rules>
         <Rule Name="Setting" />

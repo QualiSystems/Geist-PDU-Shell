@@ -18,6 +18,12 @@
                 <AttachedAttribute Name="Model" IsOverridable="true" IsLocal="true">
                   <AllowedValues />
                 </AttachedAttribute>
+                <AttachedAttribute Name="Version" IsOverridable="true" IsLocal="true">
+                  <AllowedValues />
+                </AttachedAttribute>
+                <AttachedAttribute Name="Location" IsOverridable="true" IsLocal="true">
+                  <AllowedValues />
+                </AttachedAttribute>
                 <AttachedAttribute Name="SNMP Read Community" IsOverridable="true" IsLocal="true">
                   <AllowedValues />
                 </AttachedAttribute>
@@ -34,7 +40,11 @@
                   <AllowedValues />
                 </AttachedAttribute>
                 <AttachedAttribute Name="SNMP Version" IsOverridable="true" IsLocal="true">
-                  <AllowedValues />
+                    <AllowedValues>
+                        <AllowedValue>v1</AllowedValue>
+                        <AllowedValue>v2c</AllowedValue>
+                        <AllowedValue>v3</AllowedValue>
+                    </AllowedValues>
                 </AttachedAttribute>
                 <AttachedAttribute Name="Sessions Concurrency Limit" IsOverridable="true" IsLocal="true">
                   <AllowedValues />
