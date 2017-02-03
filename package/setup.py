@@ -11,7 +11,7 @@ with open('test_requirements.txt') as f_tests:
     required_for_tests = f_tests.read().splitlines()
 
 setup(
-    name='cloudshell-pdu-raritan',
+    name='cloudshell-pdu-geist',
     url='http://www.qualisystems.com/',
     author='QualiSystems',
     author_email='info@qualisystems.com',
@@ -20,6 +20,6 @@ setup(
     tests_require=required_for_tests,
     version=version_from_file,
     package_data={'': ['*.txt']},
-    description='QualiSystems Raritan PDU package',
+    description='QualiSystems Geist PDU package',
     include_package_data = True
 )

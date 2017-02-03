@@ -1,12 +1,16 @@
 import os
 import threading
+from time import sleep
 
 from cloudshell.shell.core.context import AutoLoadResource, AutoLoadDetails, AutoLoadAttribute
+from cloudshell.shell.core.context_utils import get_attribute_by_name
 from cloudshell.snmp.quali_snmp import QualiSnmp
 
-from cloudshell.networking.devices.driver_helper import get_snmp_parameters_from_command_context
-
 from cloudshell.shell.core.session.logging_session import LoggingSessionContext
+from cloudshell.snmp.snmp_parameters import SNMPV3Parameters, SNMPV2Parameters
+from pysnmp.proto.rfc1902 import Gauge32
+from pysnmp.smi.rfc1902 import ObjectType, ObjectIdentity
+
 
 def get_logger(context):
     logger = LoggingSessionContext.get_logger_for_context(context)
@@ -18,9 +22,58 @@ def get_logger(context):
         child.addFilter(log_filter)
     return child
 
+def get_snmp_parameters_from_command_context(command_context, write=False):
+    snmp_version = get_attribute_by_name(context=command_context, attribute_name='SNMP Version')
+    ip = command_context.resource.address
+
+    if '3' in snmp_version:
+        return SNMPV3Parameters(
+            ip=ip,
+            snmp_user=get_attribute_by_name(context=command_context, attribute_name='SNMP User') or '',
+            snmp_password=get_attribute_by_name(context=command_context, attribute_name='SNMP Password') or '',
+            snmp_private_key=get_attribute_by_name(context=command_context, attribute_name='SNMP Private Key')
+        )
+    else:
+        return SNMPV2Parameters(
+            ip=ip,
+            snmp_community=get_attribute_by_name(context=command_context,
+                                                 attribute_name='SNMP Write Community' if write else 'SNMP Read Community' ))
+
+
+def do_geist_power(context, f):
+    logger = get_logger(context)
+    snmp_parameters = get_snmp_parameters_from_command_context(context, write=True)
+    snmp = QualiSnmp(snmp_parameters, logger)
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mibs'))
+    snmp.update_mib_sources(path)
+    snmp.load_mib(['GEIST-MIB-V3'])
+    f(snmp)
+
+def geist_power_cycle(context, portnum, delay):
+    def f(snmp):
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(3))))
+        sleep(delay)
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(1))))
+
+    do_geist_power(context, f)
+
+def geist_power_on(context, portnum):
+    def f(snmp):
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(1))))
+
+    do_geist_power(context, f)
+
+
+def geist_power_off(context, portnum):
+    def f(snmp):
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(3))))
+
+    do_geist_power(context, f)
+
+
 def geist_autoload(context):
     logger = get_logger(context)
-    snmp_parameters = get_snmp_parameters_from_command_context(context)
+    snmp_parameters = get_snmp_parameters_from_command_context(context, write=False)
     snmp = QualiSnmp(snmp_parameters, logger)
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mibs'))
     snmp.update_mib_sources(path)
@@ -32,6 +85,7 @@ def geist_autoload(context):
         r.model = model
         r.relative_address = relative_address
         r.unique_identifier = unique_identifier
+        return r
 
     def makeattr(relative_address, attribute_name, attribute_value):
         a = AutoLoadAttribute()
@@ -102,7 +156,7 @@ def geist_autoload(context):
         # <AttributeValue Name="Version" Value="" />
         # <AttributeValue Name="Port Description" Value="" />
         addr = '%d' % idx
-        rv.resources.append(makeres('Port %d' % idx, 'Generic Power Port', addr))
+        rv.resources.append(makeres('Port %d' % idx, 'Generic Power Socket', addr))
         rv.attributes.append(makeattr(addr, 'Port Description', record['ctrlOutletName']))
 
         # record['ctrlOutletStatus']

@@ -1,1 +1,1 @@
-CloudShell Power PDU Raritan package powered by QualiSystems
+CloudShell Power PDU Geist package powered by QualiSystems

@@ -3,10 +3,16 @@
 <ResourceTemplates>
     <ResourceTemplate Name="GeistPdu" Model="GeistPdu" Driver="GeistPduDriver">
         <Description></Description>
-        <AutoLoad Enable="false">
+        <AutoLoad Enable="true">
             <Description>Description for autoload </Description>
         </AutoLoad>
         <Attributes>
+            <Attribute Name="SNMP Version" Value="" />
+            <Attribute Name="SNMP Read Community" Value="" />
+            <Attribute Name="SNMP Write Community" Value="" />
+            <Attribute Name="SNMP V3 User" Value="" />
+            <Attribute Name="SNMP V3 Password" Value="" />
+            <Attribute Name="SNMP V3 Private Key" Value="" />
             <Attribute Name="User" Value="" />
             <Attribute Name="Password" Value="" />
         </Attributes>
