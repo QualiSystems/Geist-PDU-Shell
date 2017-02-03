@@ -22,7 +22,7 @@ def get_logger(context):
         child.addFilter(log_filter)
     return child
 
-def get_snmp_parameters_from_command_context(command_context, write=False):
+def get_snmp_parameters_from_command_context(command_context, write):
     snmp_version = get_attribute_by_name(context=command_context, attribute_name='SNMP Version')
     ip = command_context.resource.address
 
@@ -34,41 +34,42 @@ def get_snmp_parameters_from_command_context(command_context, write=False):
             snmp_private_key=get_attribute_by_name(context=command_context, attribute_name='SNMP Private Key')
         )
     else:
-        return SNMPV2Parameters(
-            ip=ip,
-            snmp_community=get_attribute_by_name(context=command_context,
-                                                 attribute_name='SNMP Write Community' if write else 'SNMP Read Community' ))
+        if write:
+            community = get_attribute_by_name(context=command_context, attribute_name='SNMP Write Community') or 'private'
+        else:
+            community = get_attribute_by_name(context=command_context, attribute_name='SNMP Read Community') or 'public'
+        return SNMPV2Parameters(ip=ip, snmp_community=community)
 
 
-def do_geist_power(context, f):
+def do_geist_power(context, f, portstr):
     logger = get_logger(context)
     snmp_parameters = get_snmp_parameters_from_command_context(context, write=True)
     snmp = QualiSnmp(snmp_parameters, logger)
     path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'mibs'))
     snmp.update_mib_sources(path)
     snmp.load_mib(['GEIST-MIB-V3'])
-    f(snmp)
+    logger.info('geist power called with port "%s"' % portstr)
+    f(snmp, portstr)
 
-def geist_power_cycle(context, portnum, delay):
-    def f(snmp):
-        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(3))))
+def geist_power_cycle(context, portstr, delay):
+    def f(snmp, portstr):
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus', int(portstr)), Gauge32(3)))
         sleep(delay)
-        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(1))))
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus', int(portstr)), Gauge32(1)))
 
-    do_geist_power(context, f)
+    do_geist_power(context, f, portstr)
 
-def geist_power_on(context, portnum):
-    def f(snmp):
-        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(1))))
+def geist_power_on(context, portstr):
+    def f(snmp, portstr):
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus', int(portstr)), Gauge32(1)))
 
-    do_geist_power(context, f)
+    do_geist_power(context, f, portstr)
 
-def geist_power_off(context, portnum):
-    def f(snmp):
-        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus.%d' % portnum, Gauge32(3))))
+def geist_power_off(context, portstr):
+    def f(snmp, portstr):
+        snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus', int(portstr)), Gauge32(3)))
 
-    do_geist_power(context, f)
-
+    do_geist_power(context, f, portstr)
 
 def geist_autoload(context):
     logger = get_logger(context)
@@ -78,7 +79,7 @@ def geist_autoload(context):
     snmp.update_mib_sources(path)
     snmp.load_mib(['GEIST-MIB-V3'])
 
-    def makeres(name, model, relative_address, unique_identifier='-1'):
+    def makeres(name, model, relative_address, unique_identifier):
         r = AutoLoadResource()
         r.name = name
         r.model = model
@@ -99,13 +100,13 @@ def geist_autoload(context):
     # snmp.get_property('SNMPv2-MIB', 'sysContact')
     # snmp.get_property('SNMPv2-MIB', 'sysLocation')
     #
-    # snmp.get_property('geistV3', 'productTitle')
+    # snmp.get_property('GEIST-MIB-V3', 'productTitle')
     #
-    # snmp.get_property('geistV3', 'productFriendlyName')
-    # snmp.get_property('geistV3', 'productUrl')
-    # snmp.get_property('geistV3', 'productHardware')
+    # snmp.get_property('GEIST-MIB-V3', 'productFriendlyName')
+    # snmp.get_property('GEIST-MIB-V3', 'productUrl')
+    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
     #
-    # snmp.get_property('geistV3', 'productHardware')
+    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
     #
     # snmp.get_property('SNMPv2-MIB', 'sysName')
     # snmp.get_property('SNMPv2-MIB', 'sysDescr')
@@ -113,13 +114,13 @@ def geist_autoload(context):
     # snmp.get_property('SNMPv2-MIB', 'sysContact')
     # snmp.get_property('SNMPv2-MIB', 'sysLocation')
     #
-    # snmp.get_property('geistV3', 'productTitle')
+    # snmp.get_property('GEIST-MIB-V3', 'productTitle')
     #
-    # snmp.get_property('geistV3', 'productFriendlyName')
-    # snmp.get_property('geistV3', 'productUrl')
-    # snmp.get_property('geistV3', 'productHardware')
+    # snmp.get_property('GEIST-MIB-V3', 'productFriendlyName')
+    # snmp.get_property('GEIST-MIB-V3', 'productUrl')
+    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
     #
-    # snmp.get_property('geistV3', 'productHardware')
+    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
     #                 <AttributeValue Name="User" Value="" />
     #             <AttributeValue Name="Password" Value="3M3u7nkDzxWb0aJ/IZYeWw==" />
     #             <AttributeValue Name="Vendor" Value="" />
@@ -143,9 +144,11 @@ def geist_autoload(context):
     rv.attributes = []
 
     rv.attributes.append(makeattr('', 'Version', snmp.get_property('GEIST-MIB-V3', 'productVersion', 0)))
-    # rv.attributes.append(makeattr('', 'Location', snmp.get_property('SNMPv2-MIB', 'sysLocation', 0)))
+    rv.attributes.append(makeattr('', 'Location', snmp.get_property('SNMPv2-MIB', 'sysLocation', 0)))
     rv.attributes.append(makeattr('', 'Vendor', snmp.get_property('GEIST-MIB-V3', 'productHardware', 0)))
     rv.attributes.append(makeattr('', 'Model', snmp.get_property('GEIST-MIB-V3', 'productTitle', 0)))
+
+    pduname = snmp.get_property('GEIST-MIB-V3', 'productFriendlyName', 0)
 
     outlet_table = snmp.get_table('GEIST-MIB-V3', 'ctrlOutletTable')
 
@@ -155,7 +158,7 @@ def geist_autoload(context):
         # <AttributeValue Name="Version" Value="" />
         # <AttributeValue Name="Port Description" Value="" />
         addr = '%d' % idx
-        rv.resources.append(makeres('Port %d' % idx, 'Generic Power Socket', addr))
+        rv.resources.append(makeres('Port %d' % idx, 'Generic Power Socket', addr, '%s.%d' % (pduname, idx)))
         rv.attributes.append(makeattr(addr, 'Port Description', record['ctrlOutletName']))
 
         # record['ctrlOutletStatus']
