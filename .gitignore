@@ -1,0 +1,3 @@
+*.pyc
+package/cloudshell_pdu_geist.egg-info
+package/dist

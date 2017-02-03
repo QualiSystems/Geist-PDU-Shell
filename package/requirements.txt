@@ -1,0 +1,2 @@
+cloudshell-shell-core>=2.3,<2.4
+cloudshell-pdu-core>=1.0,<1.1
