@@ -3,5 +3,5 @@ shell:
     author: ericr
     email: info@quali.com
     description: Describe the purpose of your CloudShell shell
-    version: 1.0.3
+    version: 1.0.23
     driver_name: GeistPduDriver

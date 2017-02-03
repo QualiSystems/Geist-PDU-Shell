@@ -126,7 +126,11 @@
       <AttributeValues />
       <Models>
         <ResourceModel Name="Generic Power Socket" Description="" SupportsConcurrentCommands="false">
-          <AttachedAttributes />
+          <AttachedAttributes>
+            <AttachedAttribute Name="Port Description" IsOverridable="true" IsLocal="true">
+              <AllowedValues />
+            </AttachedAttribute>
+          </AttachedAttributes>
           <AttributeValues />
           <ParentModels>
             <ParentModelName>GeistPdu</ParentModelName>

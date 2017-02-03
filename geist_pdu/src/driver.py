@@ -4,8 +4,9 @@ from cloudshell.power.pdu.power_resource_driver_interface import PowerResourceDr
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 from cloudshell.shell.core.context import InitCommandContext, ResourceCommandContext
 
-from package.cloudshell.pdu.geist.logic.geist_handler import geist_autoload
+from cloudshell.pdu.geist.logic.geist_handler import geist_autoload
 
+from cloudshell.shell.core.context import AutoLoadDetails
 
 class GeistPduDriver(ResourceDriverInterface, PowerResourceDriverInterface):
 
@@ -31,21 +32,22 @@ class GeistPduDriver(ResourceDriverInterface, PowerResourceDriverInterface):
         """
         pass
 
-    def example_function(self, context):
-        """
-        A simple example function
-        :param ResourceCommandContext context: the context the command runs on
-        """
-        pass
-
     def get_inventory(self, context):
+        """
+
+        :param context: ResourceCommandContext
+        :return: AutoloadDetails
+        """
         return geist_autoload(context)
 
     def PowerCycle(self, context, ports, delay):
-        return super(GeistPduDriver, self).PowerCycle(context, ports, delay)
+        for port in ports:
+            geist_power_cycle(context, port.split('/')[-1], delay)
 
     def PowerOn(self, context, ports):
-        return super(GeistPduDriver, self).PowerOn(context, ports)
+        for port in ports:
+            geist_power_on(context, port.split('/')[-1])
 
     def PowerOff(self, context, ports):
-        return super(GeistPduDriver, self).PowerOff(context, ports)
+        for port in ports:
+            geist_power_off(context, port.split('/')[-1])
