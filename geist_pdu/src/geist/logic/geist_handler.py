@@ -94,51 +94,6 @@ def geist_autoload(context):
         a.attribute_value = attribute_value
         return a
 
-    # snmp.get_property('SNMPv2-MIB', 'sysName')
-    # snmp.get_property('SNMPv2-MIB', 'sysDescr')
-    # snmp.get_property('SNMPv2-MIB', 'sysObjectID')
-    # snmp.get_property('SNMPv2-MIB', 'sysContact')
-    # snmp.get_property('SNMPv2-MIB', 'sysLocation')
-    #
-    # snmp.get_property('GEIST-MIB-V3', 'productTitle')
-    #
-    # snmp.get_property('GEIST-MIB-V3', 'productFriendlyName')
-    # snmp.get_property('GEIST-MIB-V3', 'productUrl')
-    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
-    #
-    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
-    #
-    # snmp.get_property('SNMPv2-MIB', 'sysName')
-    # snmp.get_property('SNMPv2-MIB', 'sysDescr')
-    # snmp.get_property('SNMPv2-MIB', 'sysObjectID')
-    # snmp.get_property('SNMPv2-MIB', 'sysContact')
-    # snmp.get_property('SNMPv2-MIB', 'sysLocation')
-    #
-    # snmp.get_property('GEIST-MIB-V3', 'productTitle')
-    #
-    # snmp.get_property('GEIST-MIB-V3', 'productFriendlyName')
-    # snmp.get_property('GEIST-MIB-V3', 'productUrl')
-    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
-    #
-    # snmp.get_property('GEIST-MIB-V3', 'productHardware')
-    #                 <AttributeValue Name="User" Value="" />
-    #             <AttributeValue Name="Password" Value="3M3u7nkDzxWb0aJ/IZYeWw==" />
-    #             <AttributeValue Name="Vendor" Value="" />
-    #             <AttributeValue Name="Location" Value="" />
-    #             <AttributeValue Name="Model" Value="" />
-    #             <AttributeValue Name="Backup Location" Value="" />
-    #             <AttributeValue Name="SNMP Read Community" Value="" />
-    #             <AttributeValue Name="SNMP Write Community" Value="" />
-    #             <AttributeValue Name="SNMP V3 Password" Value="" />
-    #             <AttributeValue Name="SNMP V3 Private Key" Value="" />
-    #             <AttributeValue Name="SNMP V3 User" Value="" />
-    #             <AttributeValue Name="SNMP Version" Value="" />
-    #             <AttributeValue Name="Console Server IP Address" Value="" />
-    #             <AttributeValue Name="Console User" Value="" />
-    #             <AttributeValue Name="Console Password" Value="3M3u7nkDzxWb0aJ/IZYeWw==" />
-    #             <AttributeValue Name="Console Port" Value="0" />
-    #             <AttributeValue Name="CLI Connection Type" Value="Auto" />
-
     rv = AutoLoadDetails()
     rv.resources = []
     rv.attributes = []
@@ -153,45 +108,8 @@ def geist_autoload(context):
     outlet_table = snmp.get_table('GEIST-MIB-V3', 'ctrlOutletTable')
 
     for idx, record in outlet_table.iteritems():
-                # <AttributeValue Name="Model" Value="" />
-        # <AttributeValue Name="Serial Number" Value="" />
-        # <AttributeValue Name="Version" Value="" />
-        # <AttributeValue Name="Port Description" Value="" />
         addr = '%d' % idx
         rv.resources.append(makeres('Port %d' % idx, 'Generic Power Socket', addr, '%s.%d' % (pduname, idx)))
         rv.attributes.append(makeattr(addr, 'Port Description', record['ctrlOutletName']))
 
-        # record['ctrlOutletStatus']
-        # record['ctrlOutletFeedback']
-        # record['ctrlOutletPending']
-        # record['ctrlOutletDeciAmps']
-        # record['ctrlOutletGroup']
-        # record['ctrlOutletUpDelay']
-        # record['ctrlOutletDwnDelay']
-        # record['ctrlOutletRbtDuration']
-        # record['ctrlOutletURL']
-        # record['ctrlOutletPOAAction']
-        # record['ctrlOutletPOADelay']
-        # record['ctrlOutletkWattHrs']
-        # record['ctrlOutletRbtDelay']
-        # record['ctrlOutletStatusTime']
-
     return rv
-
-        #
-#     root_model.SYSTEM_NAME: self.snmp.get_property('SNMPv2-MIB', 'sysName', 0),
-#     root_model.VENDOR: 'Cisco',
-#     root_model.MODEL: self._get_device_model(),
-#     root_model.LOCATION: self.snmp.get_property('SNMPv2-MIB', 'sysLocation',
-#                                                      0),
-#     root_model.CONTACT_NAME: self.snmp.get_property(
-#         'SNMPv2-MIB', 'sysContact', 0),
-#     root_model.OS_VERSION: ''}
-#
-#     match_version = re.search(r'Version\s+(?P<software_version>\S+)\S*\s+',
-#     self.snmp.get_property('SNMPv2-MIB', 'sysDescr', 0))
-#     if match_version:
-#         result['os_version'] = match_version.groupdict()['software_version'].replace(',', '')
-#
-#     snmp.get_table('IF-MIB', "ifDescr")
-# "entPhysicalDescr"
