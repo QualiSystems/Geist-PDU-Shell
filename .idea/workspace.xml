@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2e44fc84-ba65-4467-b130-005f42e47ab5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geist_pdu/src/driver.py" afterPath="$PROJECT_DIR$/geist_pdu/src/driver.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geist_pdu/src/geist/logic/geist_handler.py" afterPath="$PROJECT_DIR$/geist_pdu/src/geist/logic/geist_handler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geist_pdu/version.txt" afterPath="$PROJECT_DIR$/geist_pdu/version.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geist_pdu/.gitignore" afterPath="$PROJECT_DIR$/geist_pdu/.gitignore" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,7 +17,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="driver.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="driver.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geist_pdu/src/driver.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -27,6 +25,16 @@
               <folding>
                 <element signature="e#0#93#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/geist_pdu/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -105,6 +113,7 @@
         <option value="$PROJECT_DIR$/geist_pdu/src/geist/logic/geist_handler.py" />
         <option value="$PROJECT_DIR$/geist_pdu/version.txt" />
         <option value="$PROJECT_DIR$/geist_pdu/src/requirements.txt" />
+        <option value="$PROJECT_DIR$/geist_pdu/.gitignore" />
       </list>
     </option>
   </component>
@@ -603,6 +612,14 @@
           <folding>
             <element signature="e#0#93#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geist_pdu/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
