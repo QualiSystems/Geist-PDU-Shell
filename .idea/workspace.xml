@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e44fc84-ba65-4467-b130-005f42e47ab5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/geist_pdu/.gitignore" afterPath="$PROJECT_DIR$/geist_pdu/.gitignore" />
-    </list>
+    <list default="true" id="2e44fc84-ba65-4467-b130-005f42e47ab5" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +15,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="driver.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="driver.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/geist_pdu/src/driver.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -25,16 +23,6 @@
               <folding>
                 <element signature="e#0#93#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/geist_pdu/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -118,8 +106,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="374" />
-    <option name="y" value="23" />
+    <option name="x" value="472" />
+    <option name="y" value="24" />
     <option name="width" value="1402" />
     <option name="height" value="867" />
   </component>
@@ -333,7 +321,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="374" y="23" width="1402" height="867" extended-state="0" />
+    <frame x="472" y="24" width="1402" height="867" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24780059" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -605,6 +593,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/geist_pdu/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/geist_pdu/src/driver.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -612,14 +608,6 @@
           <folding>
             <element signature="e#0#93#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geist_pdu/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
