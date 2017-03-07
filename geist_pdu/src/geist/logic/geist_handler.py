@@ -22,6 +22,7 @@ def get_logger(context):
         child.addFilter(log_filter)
     return child
 
+
 def get_snmp_parameters_from_command_context(command_context, write):
     snmp_version = get_attribute_by_name(context=command_context, attribute_name='SNMP Version')
     ip = command_context.resource.address
@@ -51,6 +52,7 @@ def do_geist_power(context, f, portstr):
     logger.info('geist power called with port "%s"' % portstr)
     f(snmp, portstr)
 
+
 def geist_power_cycle(context, portstr, delay):
     def f(snmp, portstr):
         snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus', int(portstr)), Gauge32(3)))
@@ -59,17 +61,20 @@ def geist_power_cycle(context, portstr, delay):
 
     do_geist_power(context, f, portstr)
 
+
 def geist_power_on(context, portstr):
     def f(snmp, portstr):
         snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus', int(portstr)), Gauge32(1)))
 
     do_geist_power(context, f, portstr)
 
+
 def geist_power_off(context, portstr):
     def f(snmp, portstr):
         snmp._command(snmp.cmd_gen.setCmd, ObjectType(ObjectIdentity('GEIST-MIB-V3', 'ctrlOutletStatus', int(portstr)), Gauge32(3)))
 
     do_geist_power(context, f, portstr)
+
 
 def geist_autoload(context):
     logger = get_logger(context)
