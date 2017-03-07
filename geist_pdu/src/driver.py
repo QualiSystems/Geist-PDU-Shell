@@ -1,5 +1,3 @@
-import threading
-
 from cloudshell.power.pdu.power_resource_driver_interface import PowerResourceDriverInterface
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
 from cloudshell.shell.core.context import InitCommandContext, ResourceCommandContext
